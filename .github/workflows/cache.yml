@@ -12,16 +12,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Cache dependencies
+      - name: Cache example directory
         id: cache
         uses: actions/cache@v4
         with:
-          path: ~/.npm
+          path: cache-dir
           key: cache-545098e
           restore-keys: |
             cache-
@@ -29,5 +24,7 @@ jobs:
       - name: prime-cache-545098e
         run: echo "Cache hit? ${{ steps.cache.outputs.cache-hit }}"
 
-      - name: Install dependencies
-        run: npm install
+      - name: Create file in cache
+        run: |
+          mkdir -p cache-dir
+          echo "cached content" > cache-dir/test.txt
